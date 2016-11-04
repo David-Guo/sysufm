@@ -1,0 +1,121 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/dist/css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='lib/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    {{ moment.include_moment(local_js=url_for('static', filename='lib/moment-with-locales.min.js')) }} {{ moment.lang("zh-cn") }}
+    <style type="text/css">
+        .alert-box {
+            width: 920px;
+            margin: 0 auto 0;
+            padding-top: 80px;
+        }
+        
+        .nav-fix nav {
+            position: fixed;
+        }
+        
+        nav {
+            background-color: #ee6e73;
+            width: 100%;
+            height: 64px;
+            line-height: 64px;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+            z-index: 1;
+        }
+        
+        .white {
+            background-color: #FFF!important;
+        }
+        
+        .right {
+            float: right!important;
+        }
+        
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav ul a {
+            cursor: pointer;
+            display: block;
+            padding: 0 15px;
+            color: #000;
+        }
+        
+        a:hover {
+            text-decoration: none;
+            color: #000;
+        }
+        
+        nav ul li {
+            transition: background-color .3s;
+            padding: 0;
+            float: left;
+            list-style-type: none;
+        }
+        
+        nav ul li:hover {
+            background-color: rgba(0, 0, 0, .1);
+        }
+        
+        .btn.red {
+            background-color: #EF5350!important;
+            border: none;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+        }
+        
+        nav ul li#red-btn:hover {
+            background-color: white;
+        }
+        
+        .btn.red:hover {
+            box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+        }
+        
+        .red a {
+            color: #fff;
+        }
+    </style>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon"> {% block head %} {% endblock %}
+</head>
+
+<body>
+    <title> 中大二手工坊 </title>
+    <div class="nav-fix">
+        <nav class="white">
+            <div class="navbar-wapper">
+                <a class="navbar-brand" href="{{ url_for('index') }}">中大二手工坊 SYSU Flea Market</a>
+                <ul class="right">
+                    <li id="red-btn">
+                        <button type="button" class="btn red" title="需要先登录哦">
+                        <a href="{{ url_for('post') }}">我要发布</a>
+                        </button>
+                    </li>
+                    <li> <a href="{{ url_for('user') }}">我的商品</a></li>
+                    {% if current_user.is_authenticated %}
+                    <li><a href="#">{{ current_user.username }}</a></li>
+                    <li><a href="{{ url_for('logout') }}">退出登录</a></li>
+                    {% else %}
+                    <li><a href="{{ url_for('login') }}">登录</a></li>
+                    <li><a href="{{ url_for('register') }}">注册</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    {% for message in get_flashed_messages() %}
+    <div class="alert-box">
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <p style="text-align: center">{{ message }}</p>
+        </div>
+    </div>
+    {% endfor %} {% block content %} {% endblock %}
+</body>
+
+</html>

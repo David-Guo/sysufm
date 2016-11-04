@@ -1,0 +1,6 @@
+**pyc
+.vscode/*
+migrations/*
+app/static/upload/*
+app/static/lib/*
+log.md

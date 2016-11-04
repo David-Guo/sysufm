@@ -1,0 +1,141 @@
+{% extends "base.html" %} {% block head %}
+<link rel="stylesheet" href="../static/post.css">
+<link href="{{ url_for('static', filename='lib/bootstrap-fileinput/css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css" />
+<script src="{{ url_for('static', filename='lib/bootstrap-fileinput/js/fileinput.min.js') }}"></script>{% endblock %} {% block content %}
+<div class="container" style="padding-top: 64px">
+
+    <h2>发布商品</h2>
+    <form name="form" id="form" class="form-horizontal" enctype="multipart/form-data" method="POST">
+        {{ form.hidden_tag() }}
+        <div class=from-group>
+            <span class="input input--hoshi">
+            <input class="input__field input__field--hoshi" type="text" id="name" name="name"  required="" value="{% if form.name.data %}{{ form.name.data }}{% endif %}"/>
+            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="input-4">
+            <span class="input__label-content input__label-content--hoshi">商品名（必填）</span>
+            </label>
+            </span>
+        </div>
+        <div class="form-group">
+            <span class="input input--hoshi">
+                <textarea onkeyup="textAreaAdjust(this)" style="overflow:hidden" type="text" class="input__field input__field--hoshi" id="description" name="description">{% if form.description.data %} {{ form.description.data }} {% endif %}</textarea>
+			<label class="input__label input__label--hoshi input__label--hoshi-color-1" for="input-5">
+			<span class="input__label-content input__label-content--hoshi">商品描述（必填）</span>
+            </label>
+            </span>
+        </div>
+
+        <div class="form-inline">
+            <div class="form-location">
+                <select class="form-control" id="location" name="location" required="">
+                    <option value disabled="disabled" selected="selected">交易地点（必选）</option>
+                    <option value="全校">全校</option>
+                    <option value="南校区">南校区</option>
+                    <option value="东校区">东校区</option>
+                    <option value="珠海校区">珠海校区</option>
+                    <option value="北校区">北校区</option>
+                </select>
+            </div>
+            <div class="form-price">
+                <div class="input-group">
+                    <div class="input-group-addon">价格</div>
+                    <input type="text" class="form-control" id="price" name="price" placeholder="必填" required="" onkeyup="this.value=this.value.replace(/\D/g,'')" value="{% if form.price.data %}{{form.price.data}}{% endif %}">
+                    <div class="input-group-addon">￥元</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-inline">
+            <div class="form-type">
+                <select class="form-control" id="type" name="type" required="">
+                    <option value disabled="disabled" selected="selected">商品类型（必选）</option>
+                    <option value="图书教材">图书教材</option>
+                    <option value="运动棋牌">运动棋牌</option>
+                    <option value="电子数码">电子数码</option>
+                    <option value="代步工具">代步工具</option>
+                    <option value="美状衣物">美状衣物</option>
+                    <option value="电器日用">电器日用</option>
+                    <option value="票券小物">票券小物</option>
+                </select>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="discount" id="optionsRadios1" value=1 checked>可讲价</label>
+                <label><input type="radio" name="discount" id="optionsRadios2" value=2 >不可讲价</label>
+            </div>
+        </div>
+
+        <div class="form-inline">
+            <div class="input-group">
+                <div class="input-group-addon">QQ号</div>
+                <input type="text" class="form-control" id="price" name="qqnum" placeholder="选填" onkeyup="this.value=this.value.replace(/\D/g,'')" value="{% if form.qqnum.data %}{{form.qqnum.data}}{% endif %}">
+                <div class="input-group-addon">微信号</div>
+                <input type="text" class="form-control" id="price" name="wechatnum" placeholder="选填" value="{% if form.wechatnum.data %}{{form.wechatnum.data}}{% endif %}">
+            </div>
+        </div>
+
+        {% if action != "modify" %}
+        <div align="center" class="form-file">
+            <input id="input-id" name="file" type="file" class="file" data-preview-file-type="text">
+        </div>
+        {% endif %}
+
+        <div class="form-inline">
+            <button type="submit" href="#" class="btn btn-primary pull-center"><i class="glyphicon glyphicon-send"></i> 马上发布</button>
+        </div>
+    </form>
+</div>
+<script>
+    $("#input-id").fileinput({
+        'language': 'zh',
+        'showUpload': false,
+        'previewFileType': 'any',
+        'allowedFileExtensions': ['jpg', 'gif', 'png', 'jpeg']
+    }); { %
+        if form.location.data %
+    }
+    $('select#location').val("{{ form.location.data }}"); { % endif %
+    } { %
+        if form.type.data %
+    }
+    $('select#type').val("{{ form.type.data }}"); { % endif %
+    } { %
+        if form.discount.data %
+    }
+    $('input[value={{form.discount.data}}]').prop("checked", true); { % endif %
+    }
+
+    function textAreaAdjust(o) {
+        o.style.height = "1px";
+        o.style.height = (25 + o.scrollHeight) + "px";
+    };
+    if ($('textarea').val() !== '') {
+        $('textarea').parent().addClass(' input--filled')
+    }
+    $('textarea').focus(onInputFocus);
+    $('textarea').blur(onInputBlur);
+
+    function classReg(className) {
+        return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
+    }
+
+    document.querySelectorAll('input.input__field').forEach(function(inputEl) {
+        // in case the input is already filled..
+        if (inputEl.value.trim() !== '') {
+            inputEl.parentNode.className += ' input--filled';
+        }
+        // events:
+        inputEl.addEventListener('focus', onInputFocus);
+        inputEl.addEventListener('blur', onInputBlur);
+    });
+
+    function onInputFocus(ev) {
+        if (ev.target.parentNode.className.indexOf('input--filled') < 0)
+            ev.target.parentNode.className += ' input--filled';
+    }
+
+    function onInputBlur(ev) {
+        if (ev.target.value.trim() === '') {
+            ev.target.parentNode.className = ev.target.parentNode.className.replace(classReg('input--filled'), ' ');
+        }
+    }
+</script>
+{% endblock %}

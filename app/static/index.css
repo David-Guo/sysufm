@@ -1,0 +1,130 @@
+@import './common.css';
+a:hover {
+    text-decoration: none;
+}
+
+.sidebar {
+    position: fixed;
+    top: 100px;
+    left: 0;
+    font-size: 18px;
+    width: 190px;
+    background-color: #fff;
+}
+
+.sidebar li {
+    list-style-type: none;
+    display: block;
+    cursor: pointer;
+    transition: all .3s;
+    position: relative;
+}
+
+.sidebar li a {
+    display: block;
+    padding: 5px 5px 5px 30px;
+    color: #333;
+}
+
+.sidebar li img {
+    width: 36px;
+    height: 36px;
+}
+
+.sidebar li em {
+    font-style: normal;
+    position: relative;
+    left: 10px;
+}
+
+.main-contain {
+    margin-left: 200px;
+    padding-top: 26px;
+    padding-bottom: 60px;
+}
+
+.carousel.slide {
+    position: relative;
+    width: 940px;
+    height: 400px;
+    margin: 75px auto 75px;
+}
+
+.carousel-inner .item img {
+    width: 100%;
+    height: 100%;
+}
+
+.waterfoo {
+    width: 920px;
+    margin: 0 auto 0;
+}
+
+
+/*卡片组件*/
+
+.card {
+    margin: 10px;
+    width: 280px;
+    padding: 0;
+    transition: all .3s;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+    background: #f9f9f9;
+}
+
+.card :hover {
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background: #fff;
+}
+
+.card.col {
+    float: left;
+}
+
+.card a {
+    display: block;
+    color: #000;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.card .card-content {
+    padding: 20px;
+    border-radius: 0 0 2px 2px;
+}
+
+.card .item-price {
+    color: #EF5350;
+    font-weight: 600;
+    padding-bottom: 0;
+    font-size: 20px;
+}
+
+.card .item-name {
+    font-size: 18px;
+}
+
+.card .item-location {
+    padding: 0 20px 20px;
+    color: #999;
+    font-size: 14px;
+}
+
+.card .item-location .location {
+    float: right;
+    color: #42a5f5;
+    padding: 5px 10px;
+    line-height: 10px;
+    border-radius: 10px;
+    border: 1px solid;
+    text-align: center;
+}
+
+.card .card-content p {
+    display: inline-block;
+    height: 20px;
+    margin: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

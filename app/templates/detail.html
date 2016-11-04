@@ -1,0 +1,67 @@
+{% extends "base.html" %} {% block head %}
+<link rel="stylesheet" href="../static/detail.css">
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_fm4zh4nnzhddkj4i.css" {% endblock %} {% block content %} <div class="contentr" style="padding-top: 64px">
+<div class="detail-box">
+    <div class="col s12 path"><a href="/category/ride">{{ item.type }}</a><em>&gt;</em><a>{{ item.name }}</a></div>
+    <div class="col s6">
+        <div>
+            {% if item.image %}
+            <img src="{{ item.image }}" height="440" width="440"> {% else %}
+            <img src="http://localhost:5000/static/img/yellow.jpeg" height="440" width="440"> {% endif %}
+        </div>
+    </div>
+    <div class="col s6">
+        <h1 class="item-name">{{ item.name }}</h1>
+        <h2 class="item-price">￥{{ item.price }}</h2>
+        <div class="info">
+            <p class="discount"> {% if item.discount == 1 %} 可讲价 {% else %} 不可讲价 {% endif %}</p>
+            <p>
+                <i class="iconfont icon-location"></i>
+                <em class="location"> {{ item.location }} </em>
+            </p>
+        </div>
+        <div class="publisher-info-title">
+            <em>卖家信息</em>
+            <hr>
+        </div>
+        <div class="contact">
+            {% if current_user.is_authenticated %}
+            <div>
+                <div class="base-blue z-depth-1 attr"><i class="iconfont icon-user"></i></div>
+                <div class="value">{{ item.author.username }}</div>
+            </div>
+            <div>
+                <div class="base-blue z-depth-1 attr"><i class="iconfont icon-phone"></i></div>
+                <div class="value">{{ item.author.phonenum }}</div>
+            </div>
+            {% if item.wechatnum %}
+            <div>
+                <div class="base-blue z-depth-1 attr"><i class="iconfont icon-wechat"></i></div>
+                <div class="value">{{ item.wechatnum }}</div>
+            </div>
+            {% endif %} {% if item.qqnum %}
+            <div>
+                <div class="base-blue z-depth-1 attr"><i class="iconfont icon-qq"></i></div>
+                <div class="value">{{ item.qqnum }}</div>
+            </div>
+            {% endif %} {% else %}
+            <p class="not-login"> <a href="{{url_for('login')}}">登录</a>或<a href="{{url_for('register')}}">注册</a>后查看联系信息</p>
+            {% endif %}
+        </div>
+        <h1 class="item-pub-time">发布于 {{ moment(item.timestamp).format('YYYY-MM-DD HH:MM:SS') }}</h1>
+        {% if current_user == item.author %} {% if item.status == 1 %}
+        <button class="btn status z-depth-1">已售出</button> {% else %}
+        <button class="btn status z-depth-1"><a href="{{ url_for('.modify', id=item.id) }}">修改</a></button> {% endif %} {% endif %}
+    </div>
+</div>
+
+<div class="detail-box">
+    <h1 class="title">商品详情</h1>
+    <hr class="hr1">
+    <hr class="hr2">
+    <p class="section">{{ item.description }}</p>
+    <p class="section">联系我的时候，请说明是在中大二手工坊看见的哦~</p>
+</div>
+
+</div>
+{% endblock %}

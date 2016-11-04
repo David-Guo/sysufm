@@ -1,0 +1,79 @@
+{% extends "base.html" %} 
+
+{% block head %}
+<link rel="stylesheet" href="../static/login.css">
+<script src="../static/login.js"></script>
+
+{% endblock %} 
+
+{% block content %}
+
+<div class="container">
+
+    <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
+
+        <div class="row">
+            <a href="{{ url_for('index') }}"> 
+                <div class="iconmelon">
+                    <img src="../static/img/logo.png"> 
+                </div>
+            </a>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title text-center">sysufm</div>
+            </div>
+
+            <div class="panel-body">
+                
+                <form name="form" id="form" class="form-horizontal" enctype="multipart/form-data" method="POST">
+                    {{ form.hidden_tag() }}
+                    {% if form.errors.phonenum %}
+                    <div class="has-error">
+                    {% endif %}
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                            <input id="user" type="text" class="form-control" name="phonenum" required="" placeholder="手机号">
+                        </div>
+                    {% if form.errors.phonenum %} 
+                        {% for error in form.errors.phonenum %}
+                        <p class="help-block">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if isRegister %}
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input id="user" type="text" class="form-control" name="username" required="" placeholder="昵称">
+                    </div>
+                    {% endif %}
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input id="password" type="password" class="form-control" name="password" required="" placeholder="密码">
+                    </div>
+
+                    <div class="form-group">
+                        <!-- Button -->
+                        <div class="col-sm-12 controls">
+                            <button type="submit" href="#" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-log-in"></i>
+                             {% if isRegister %}注册{% else %}登录{% endif %}
+                            </button>
+                            
+                        </div>
+                    </div>
+                    {% if isRegister %}
+                    <p> 已有账号？去<a href="{{ url_for('login') }}">登录</a></p>
+                    {% else %}
+                    <p> 没有账号？赶快<a href="{{ url_for('register') }}">注册</a>吧！</p>
+                    {% endif %}
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="particles"><canvas class="pg-canvas" width="1920" height="969"></canvas></div>
+{% endblock %}

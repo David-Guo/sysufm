@@ -1,0 +1,57 @@
+@import './common.css';
+.detail-box {
+    width: 860px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    position: relative;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+    overflow: hidden;
+}
+
+.col {
+    float: left;
+}
+
+.col.s8 {
+    width: 66.66667%;
+}
+
+.col.s4 {
+    width: 33.33333%;
+}
+
+.col.s3 {
+    width: 25%;
+}
+
+.col.s6 {
+    width: 50%;
+}
+
+.main-info {
+    border-right: 1px solid #ddd;
+    padding: 10px;
+}
+
+.item-name {
+    font-size: 20px;
+    font-weight: 600;
+    height: 10%;
+}
+
+.item-price {
+    font-size: 20px;
+    color: #ee6e73;
+    font-weight: 700;
+    text-align: right;
+}
+
+.item-publisher {
+    font-size: 16px;
+    color: #999;
+}
+
+.status-col {
+    font-size: 20px;
+    padding: 80px 60px;
+}

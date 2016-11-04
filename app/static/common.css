@@ -1,0 +1,41 @@
+/*标题*/
+
+body {
+    background-color: #eee;
+}
+
+em {
+    font-style: normal;
+}
+
+.item-title {
+    width: 960px;
+    margin: 30px auto 0;
+    font-size: 20px;
+    color: #5d4037!important;
+}
+
+.item-title a {
+    color: #000!important;
+    font-weight: 600;
+    display: block;
+}
+
+.item-title hr {
+    margin-top: 0;
+    height: 1px;
+}
+
+.item-title .hr1 {
+    border: none;
+    border-top: 5px solid #0bb9f8;
+    width: 110px;
+    display: inline-block;
+}
+
+.item-title .hr2 {
+    display: inline-block;
+    width: 830px;
+    border: none;
+    border-top: 2px solid #d9d9d9;
+}
