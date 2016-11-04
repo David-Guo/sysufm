@@ -74,7 +74,9 @@
 
         {% if action != "modify" %}
         <div align="center" class="form-file">
+            <span class="input__label-content">点击Browse选择一张图片（必选）</span>
             <input id="input-id" name="file" type="file" class="file" data-preview-file-type="text">
+            
         </div>
         {% endif %}
 
@@ -89,20 +91,13 @@
         'showUpload': false,
         'previewFileType': 'any',
         'allowedFileExtensions': ['jpg', 'gif', 'png', 'jpeg']
-    }); { %
-        if form.location.data %
-    }
-    $('select#location').val("{{ form.location.data }}"); { % endif %
-    } { %
-        if form.type.data %
-    }
-    $('select#type').val("{{ form.type.data }}"); { % endif %
-    } { %
-        if form.discount.data %
-    }
-    $('input[value={{form.discount.data}}]').prop("checked", true); { % endif %
-    }
-
+    }); 
+    {% if form.location.data %}
+    $('select#location').val("{{ form.location.data }}"); 
+    {% endif %} {% if form.type.data %}
+    $('select#type').val("{{ form.type.data }}"); 
+    {% endif %} {% if form.discount.data %}
+    $('input[value={{form.discount.data}}]').prop("checked", true); {% endif %}
     function textAreaAdjust(o) {
         o.style.height = "1px";
         o.style.height = (25 + o.scrollHeight) + "px";

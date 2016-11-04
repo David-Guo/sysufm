@@ -14,8 +14,27 @@ loc_name = ['交易地点', '全校', '南校区', '大学城', '珠海校区', 
 
 @app.route('/')
 def index():
-    commoditys = Commodity.query.order_by(Commodity.timestamp.desc())
-    return render_template('index.html', commoditys=commoditys)
+    commoditys = Commodity.query.order_by(Commodity.timestamp.desc()).limit(6)
+    book = Commodity.query.filter_by(type=u'图书教材').order_by(Commodity.timestamp.desc()).limit(6)
+    sport = Commodity.query.filter_by(type=u'运动棋牌').order_by(Commodity.timestamp.desc()).limit(6)
+    digital = Commodity.query.filter_by(type=u'电子数码').order_by(Commodity.timestamp.desc()).limit(6)
+    tool = Commodity.query.filter_by(type=u'代步工具').order_by(Commodity.timestamp.desc()).limit(6)
+    clothes = Commodity.query.filter_by(type=u'美状衣物').order_by(Commodity.timestamp.desc()).limit(6)
+    electric = Commodity.query.filter_by(type=u'电器日用').order_by(Commodity.timestamp.desc()).limit(6)
+    litter = Commodity.query.filter_by(type=u'票券小物').order_by(Commodity.timestamp.desc()).limit(6)
+    li = [(u'最新发布', commoditys), (u'图书教材', book), (u'运动棋牌',sport), (u'电子数码', digital), (u'代步工具', tool), \
+            (u'美状衣物', clothes), (u'电器日用', electric), (u'票券小物', litter)]
+    return render_template('index.html', li=li)
+
+
+@app.route('/category/<name>')
+def category(name):
+    if name == u'最新发布':
+        commoditys = Commodity.query.order_by(Commodity.timestamp.desc())
+    else:
+        commoditys = Commodity.query.filter_by(type=name).order_by(Commodity.timestamp.desc())
+    li = [(name, commoditys)]
+    return render_template('index.html', li=li)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -127,3 +146,16 @@ def user():
     #user = User.query.filter_by(username=username).first_or_404()
     commodity = current_user.commodity.order_by(Commodity.timestamp.desc()).all()
     return render_template('user.html', commodity=commodity)
+
+
+@app.route('/saled/<id>')
+@login_required
+def saled(id):
+    commodity = Commodity.query.get_or_404(id)
+    if current_user != commodity.author:
+        abort(403)
+    commodity.status = 1
+    db.session.add(commodity)
+    db.session.commit()
+    return redirect(url_for('user'))
+    return "hello"

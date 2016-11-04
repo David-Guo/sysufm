@@ -3,49 +3,49 @@
 
 <div class="sidebar">
     <li>
-        <a href="#">
+        <a href="/category/最新发布">
             <img src="../static/img/index.png">
             <em>最新发布</em>
         </a>
     </li>
     <li>
-        <a href="#">
+        <a href="/category/图书教材">
             <img src="../static/img/book.png">
             <em>图书教材</em>
         </a>
     </li>
     <li>
-        <a href="#">
+        <a href="/category/运动棋牌">
             <img src="../static/img/sport.png">
             <em>运动棋牌</em>
         </a>
     </li>
     <li>
-        <a href="#">
+        <a href="/category/电子数码">
             <img src="../static/img/digital.png">
             <em>电子数码</em>
         </a>
     </li>
     <li>
-        <a href="#">
+        <a href="/category/代步工具">
             <img src="../static/img/ride.png">
             <em>代步工具</em>
         </a>
     </li>
     <li>
-        <a href="#">
+        <a href="/category/美状衣物">
             <img src="../static/img/makeup.png">
             <em>美状衣物</em>
         </a>
     </li>
     <li>
-        <a href="#">
+        <a href="/category/电器日用">
             <img src="../static/img/commodity.png">
             <em>电器日用</em>
         </a>
     </li>
     <li>
-        <a href="#">
+        <a href="/category/票券小物">
             <img src="../static/img/smallthing.png">
             <em>票券小物</em>
         </a>
@@ -87,14 +87,14 @@
         </a>
     </div>
 
+    {% for tuple in li %}
     <div class="item-title">
-        <a href=""> 最新发布 </a>
+        <a href="/category/{{tuple[0]}}"> {{ tuple[0] }} </a>
         <hr class="hr1">
         <hr class="hr2">
     </div>
-
     <div class="waterfoo row">
-        {% for item in commoditys %}
+        {% for item in tuple[1] %}
         <div class="card col">
             <a href="{{ url_for('item', id=item.id) }}">
                 <img src="{{ item.image }}" width="280" height="280">
@@ -107,31 +107,8 @@
             </a>
         </div>
         {% endfor %}
-        <div class="card col">
-            <a href="#">
-                <img src="../static/img/test.jpg" width="280" height="280">
-                <div class="card-content item-price">￥110</div>
-                <div class="card-content item-name">女士小黑鞋</div>
-                <div class="card-content item-location">
-                    <p>3小时前</p>
-                    <p class="location">南校区</p>
-                </div>
-            </a>
-        </div>
-        <div class="card col">
-            <a href="#">
-                <img src="../static/img/yellow.jpeg" width="280" height="280">
-                <div class="card-content item-price">￥120</div>
-                <div class="card-content item-name">男士大黄鞋</div>
-                <div class="card-content item-location">
-                    <p>3小时前</p>
-                    <p class="location">东校区</p>
-                </div>
-            </a>
-        </div>
     </div>
-
-
+    {% endfor %}
 </div>
 
 {% endblock %}

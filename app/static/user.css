@@ -36,7 +36,7 @@
 .item-name {
     font-size: 20px;
     font-weight: 600;
-    height: 10%;
+    height: 60%;
 }
 
 .item-price {
@@ -53,5 +53,36 @@
 
 .status-col {
     font-size: 20px;
-    padding: 80px 60px;
+    padding: 15px 15px;
+}
+
+.status-col .btn {
+    width: 180px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: #fff;
+}
+
+.btn.blue {
+    background-color: #00acc1!important;
+}
+
+.btn.blue:hover {
+    background-color: #00c3db!important;
+}
+
+.main-info a {
+    display: block;
+    color: #000;
+    text-decoration: none;
+    overflow: hidden;
+    height: 180px;
+}
+
+i {
+    margin-right: 30px;
+}
+
+.saled {
+    padding: 65px 20px;
 }
