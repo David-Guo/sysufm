@@ -143,13 +143,16 @@ def item(id):
     item.clitime = item.clitime + 1
     print form.body.data
     if form.validate_on_submit():
+        print "succ"
+        print form.reciver.data
         comment =Comment(body=form.body.data,
                         commodity=item,
-                        author=current_user._get_current_object())
+                        author=current_user._get_current_object(),
+                        reciver=form.reciver.data)
         db.session.add(comment)
         db.session.commit()
         return redirect(url_for('item', id=item.id))
-    comments = item.comments.filter_by(disabled=None).order_by(Comment.timestamp.asc())
+    comments = item.comments.filter_by(disabled=0).order_by(Comment.timestamp.asc())
     return render_template('detail.html', item=item, comments=comments, form=form)
 
 

@@ -33,4 +33,5 @@ class CommodityForm(Form):
 
 class CommentForm(Form):
     body = StringField(u'添加你的评论', validators=[Required()])
+    reciver = StringField(u'接收者')
     submit = SubmitField('Submit')

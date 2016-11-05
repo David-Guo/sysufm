@@ -71,3 +71,5 @@ class Comment(db.Model):
     disabled = db.Column(db.Boolean, default=0)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     commodity_id = db.Column(db.Integer, db.ForeignKey('commodity.id'))
+
+    reciver = db.Column(db.String(64))

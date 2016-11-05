@@ -70,23 +70,30 @@
     <hr class="hr1">
     <hr class="hr2"> {% for comment in comments %}
     <div class="comment-pane">
-        <em class="comment-author">{{ comment.author.username }}：</em>
+        <em class="comment-author">{{ comment.author.username }}：</em>{% if comment.reciver %}
+        <em class="comment-body">回复</em>
+        <em class="comment-author">@{{ comment.reciver }}：</em>{% endif %}
         <em class="comment-body">{{ comment.body }}</em>
         <div>
-            <em class="comment-time"> {{ moment(comment.timestamp).format('YYYY-MM-DD HH:MM:SS') }}</em>
-            {% if current_user == comment.author %}
-            <a class="reply" href="/delete-comment/{{comment.id}}">删除</a>
-            {% else %}
-            <a class="reply" href="#">回复</a>
-            {% endif %}
+            <em class="comment-time"> {{ moment(comment.timestamp).format('YYYY-MM-DD HH:MM:SS') }}</em> {%if current_user.is_authenticated %} {% if current_user == comment.author %}
+            <a class="reply" href="/delete-comment/{{comment.id}}">删除</a> {% else %}
+            <a class="reply" onclick="showform({{comment.id}})" href="javascript:void(0)">回复</a> {% endif %}{% endif %}
         </div>
+        <form style="display: none" id="form{{comment.id}}" name="form" enctype="multipart/form-data" method="POST"> {{ form.hidden_tag() }}
+            <div class="comment-add">
+                <i class="iconfont icon-message" style="float:left;font-size: 4rem;"></i>
+                <input type="text" class="form-control comment-input" name="body" required="" placeholder="这里写下评论～">
+                <input type="text" style="display: none" name="reciver" value="{{comment.author.username}}">
+                <button type="submit" href="#" class="btn btn-primary pull-center send"><i class="iconfont icon-send"></i> 提交评论</button>
+            </div>
+        </form>
     </div>
     {% endfor %} {% if current_user.is_authenticated %}
     <form name="form" enctype="multipart/form-data" method="POST">
         {{ form.hidden_tag() }}
         <div class="comment-add">
             <i class="iconfont icon-message" style="float:left;font-size: 4rem;"></i>
-            <input type="text" class="form-control comment-input" name="body" required="" placeholder="这里写下评论～不超过50字哦">
+            <input type="text" class="form-control comment-input" name="body" required="" placeholder="这里写下评论～">
             <button type="submit" href="#" class="btn btn-primary pull-center send"><i class="iconfont icon-send"></i> 提交评论</button>
         </div>
     </form>
@@ -94,4 +101,13 @@
 </div>
 
 </div>
+
+<script>
+    function showform(id) {
+        if ($('#form' + id).css('display') == "none")
+            $('#form' + id).show()
+        else
+            $('#form' + id).hide()
+    }
+</script>
 {% endblock %}
