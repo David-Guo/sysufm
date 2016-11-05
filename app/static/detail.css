@@ -185,3 +185,52 @@ hr {
     padding: 10px 20px;
     font-size: 16px;
 }
+
+
+/*评论*/
+
+em {
+    font-style: normal;
+}
+
+.comment-pane {
+    padding: 20px;
+    font-size: 16px;
+    line-height: 25px;
+    border-bottom: 1px solid #ddd;
+}
+
+.comment-author {
+    color: #0bb9f8;
+}
+
+.comment-time {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #999;
+}
+
+a.reply {
+    float: right;
+    color: #f9f9f9;
+}
+
+.comment-pane:hover a.reply {
+    color: #0bb9f8;
+}
+
+.comment-add {
+    padding: 20px 200px;
+    overflow: hidden;
+}
+
+.comment-input {
+    margin-top: 1em;
+    float: right;
+    width: 92%;
+}
+
+.send {
+    margin-top: 1em;
+    float: right;
+}

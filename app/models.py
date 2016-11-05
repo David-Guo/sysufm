@@ -14,6 +14,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
 
     commodity = db.relationship('Commodity', backref='author', lazy='dynamic')
+    comment = db.relationship('Comment', backref='author', lazy='dynamic')
 
     @property
     def password(self):
@@ -52,8 +53,21 @@ class Commodity(db.Model):
     image = db.Column(db.String(64))
 
     status = db.Column(db.Integer())
+    clitime = db.Column(db.Integer(), default=0)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
+    comments = db.relationship('Comment', backref='commodity', lazy='dynamic')
+
     def __repr__(self):
         return "<id %d, name %r>" % (self.id, self.name)
+
+
+class Comment(db.Model):
+    __tablename__ = 'comment'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.String(128))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    disabled = db.Column(db.Boolean, default=0)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    commodity_id = db.Column(db.Integer, db.ForeignKey('commodity.id'))

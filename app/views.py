@@ -2,8 +2,8 @@
 
 from . import app, db
 from flask import render_template, request, redirect, url_for, flash
-from forms import LoginForm, RegisterForm, CommodityForm
-from models import User, Commodity
+from forms import LoginForm, RegisterForm, CommodityForm, CommentForm
+from models import User, Commodity, Comment
 from flask_login import current_user, login_user, logout_user, login_required
 import os
 from datetime import datetime
@@ -134,11 +134,35 @@ def modify(id):
     return render_template('post.html', form=form, action="modify")
 
 
-@app.route('/item/<int:id>')
+@app.route('/item/<int:id>', methods=['GET', 'POST'])
 def item(id):
     item = Commodity.query.get_or_404(id)
-    return render_template('detail.html', item=item)
+    form = CommentForm()
+    if item.clitime == None:
+        item.clitime = 0
+    item.clitime = item.clitime + 1
+    print form.body.data
+    if form.validate_on_submit():
+        comment =Comment(body=form.body.data,
+                        commodity=item,
+                        author=current_user._get_current_object())
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('item', id=item.id))
+    comments = item.comments.filter_by(disabled=None).order_by(Comment.timestamp.asc())
+    return render_template('detail.html', item=item, comments=comments, form=form)
 
+
+@app.route('/delete-comment/<int:id>')
+@login_required
+def delete_comment(id):
+    comment = Comment.query.get_or_404(id)
+    if current_user != comment.author:
+        abort(403)
+    comment.disabled = 1
+    db.session.add(comment)
+    db.session.commit()
+    return redirect(url_for('item', id=comment.commodity_id))
 
 @app.route('/user')
 @login_required

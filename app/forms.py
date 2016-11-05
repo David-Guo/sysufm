@@ -29,4 +29,8 @@ class CommodityForm(Form):
     qqnum = StringField(u'QQ号')
     wechatnum = StringField(u'微信号')
     #image = StringField(u'图片url')
-    
+
+
+class CommentForm(Form):
+    body = StringField(u'添加你的评论', validators=[Required()])
+    submit = SubmitField('Submit')

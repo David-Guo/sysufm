@@ -1,8 +1,10 @@
 {% extends "base.html" %} {% block head %}
 <link rel="stylesheet" href="../static/detail.css">
-<link rel="stylesheet" href="http://at.alicdn.com/t/font_fm4zh4nnzhddkj4i.css" {% endblock %} {% block content %} <div class="contentr" style="padding-top: 64px">
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_vrjuwinndrou5wmi.css" {% endblock %} {% block content %} <div class="contentr" style="padding-top: 64px">
 <div class="detail-box">
-    <div class="col s12 path"><a href="/category/ride">{{ item.type }}</a><em>&gt;</em><a>{{ item.name }}</a></div>
+    <div class="col s12 path"><a href="/category/{{item.type}}">{{ item.type }}</a><em>&gt;</em><a>{{ item.name }}</a>
+        <a style="float: right;margin-right: 20px;">浏览量 {{ item.clitime }}</a>
+    </div>
     <div class="col s6">
         <div>
             {% if item.image %}
@@ -61,6 +63,34 @@
     <hr class="hr2">
     <p class="section">{{ item.description }}</p>
     <p class="section">联系我的时候，请说明是在中大二手工坊看见的哦~</p>
+</div>
+
+<div class="detail-box">
+    <h1 class="title">评论</h1>
+    <hr class="hr1">
+    <hr class="hr2"> {% for comment in comments %}
+    <div class="comment-pane">
+        <em class="comment-author">{{ comment.author.username }}：</em>
+        <em class="comment-body">{{ comment.body }}</em>
+        <div>
+            <em class="comment-time"> {{ moment(comment.timestamp).format('YYYY-MM-DD HH:MM:SS') }}</em>
+            {% if current_user == comment.author %}
+            <a class="reply" href="/delete-comment/{{comment.id}}">删除</a>
+            {% else %}
+            <a class="reply" href="#">回复</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %} {% if current_user.is_authenticated %}
+    <form name="form" enctype="multipart/form-data" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="comment-add">
+            <i class="iconfont icon-message" style="float:left;font-size: 4rem;"></i>
+            <input type="text" class="form-control comment-input" name="body" required="" placeholder="这里写下评论～不超过50字哦">
+            <button type="submit" href="#" class="btn btn-primary pull-center send"><i class="iconfont icon-send"></i> 提交评论</button>
+        </div>
+    </form>
+    {% endif %}
 </div>
 
 </div>
