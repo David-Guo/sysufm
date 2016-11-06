@@ -7,6 +7,7 @@ from models import User, Commodity, Comment
 from flask_login import current_user, login_user, logout_user, login_required
 import os
 from datetime import datetime
+from PIL import Image
 
 typename = ['最新发布', '图书教材', '运动棋牌', '电子数码', '代步工具', '美状衣物', '电器日用', '票券小物']
 loc_name = ['交易地点', '全校', '南校区', '大学城', '珠海校区', '北校区']
@@ -90,7 +91,9 @@ def post():
         file = request.files['file']
         if file:
             newName = str(current_user.id) + '_' + datetime.now().strftime('%Y_%m_%d_%H_%M_%S') + '.' + file.filename.split('.')[-1]
-            file.save(os.path.join(app.static_folder, 'upload', newName))
+            im = Image.open(file)
+            im.save(os.path.join(app.static_folder, 'upload', newName), quality=10)
+            # file.save(os.path.join(app.static_folder, 'upload', newName))
             newCommodity = Commodity(name=form.name.data,
                                     description=form.description.data,
                                     price=form.price.data,
@@ -141,14 +144,15 @@ def item(id):
     if item.clitime == None:
         item.clitime = 0
     item.clitime = item.clitime + 1
-    print form.body.data
     if form.validate_on_submit():
-        print "succ"
-        print form.reciver.data
+        username = form.reciver.data
+        reciver = User.query.filter_by(username=username).first()
         comment =Comment(body=form.body.data,
                         commodity=item,
                         author=current_user._get_current_object(),
-                        reciver=form.reciver.data)
+                        reciver=reciver)
+        print reciver.unreadcomments
+        reciver.unreadcomments = reciver.unreadcomments + 1
         db.session.add(comment)
         db.session.commit()
         return redirect(url_for('item', id=item.id))
@@ -186,3 +190,10 @@ def saled(id):
     db.session.commit()
     return redirect(url_for('user'))
     return "hello"
+
+@app.route('/shownotice')
+def shownotice():
+    if current_user.unreadcomments != 0:
+        current_user.unreadcomments = 0
+    commented = current_user.commented.order_by(Comment.timestamp.desc()).all()
+    return render_template('notify.html', commented=commented) 

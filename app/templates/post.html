@@ -1,7 +1,5 @@
 {% extends "base.html" %} {% block head %}
-<link rel="stylesheet" href="../static/post.css">
-<link href="{{ url_for('static', filename='lib/bootstrap-fileinput/css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css" />
-<script src="{{ url_for('static', filename='lib/bootstrap-fileinput/js/fileinput.min.js') }}"></script>{% endblock %} {% block content %}
+{% endblock %} {% block content %}
 <div class="container" style="padding-top: 64px">
 
     <h2>发布商品</h2>
@@ -85,12 +83,16 @@
         </div>
     </form>
 </div>
+{% endblock %} {% block script %}
+<link rel="stylesheet" href="../static/post.css">
+<link href="{{ url_for('static', filename='lib/bootstrap-fileinput/css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css" />
+<script src="{{ url_for('static', filename='lib/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
 <script>
     $("#input-id").fileinput({
         'language': 'zh',
         'showUpload': false,
         'previewFileType': 'any',
-        'allowedFileExtensions': ['jpg', 'gif', 'png', 'jpeg']
+        'allowedFileExtensions': ['jpg', 'png', 'jpeg']
     }); 
     {% if form.location.data %}
     $('select#location').val("{{ form.location.data }}"); 

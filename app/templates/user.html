@@ -1,55 +1,56 @@
 {% extends "base.html" %} {% block head %}
 <link rel="stylesheet" href="../static/user.css">
-<link rel="stylesheet" href="http://at.alicdn.com/t/font_jbw33pu1tvqp8pvi.css" {% endblock %} {% block content %} <div class="container" style="padding-top: 64px">
-<div class="item-title">
-    <p>我发布的商品</p>
-    <hr class="hr1">
-    <hr class="hr2">
-</div>
-{% if commodity %} {% for item in commodity %}
-<div class="detail-box">
-    <div class="col s3">
-        <a href="{{ url_for('item', id=item.id) }}">
-            <img src="{{ item.image }}" width="210" height="200">
-        </a>
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_jbw33pu1tvqp8pvi.css"> {% endblock %} {% block content %}
+<div class="container" style="padding-top: 64px">
+    <div class="item-title">
+        <p>我发布的商品</p>
+        <hr class="hr1">
+        <hr class="hr2">
     </div>
-    <div class="main-info col s6">
-        <a href="{{ url_for('item', id=item.id) }}">
-            <h1 class="item-name col s8 "> {{ item.name }}</h1>
-            <h1 class="item-price col s4 ">￥{{ item.price }}</h1>
-            <h1 class="item-publisher col s6 ">发布者：{{ item.author.username }}</h1>
-            <h1 class="item-publisher col s6 " style="text-align: right">{{ item.location }}</h1>
-        </a>
-    </div>
-    <div class="col s3 status-col">
-        {% if item.status == 1 %}
-        <div class="saled">
-            <i class="iconfont icon-ok"></i><em>已售出</em>
+    {% if commodity %} {% for item in commodity %}
+    <div class="detail-box">
+        <div class="col s3">
+            <a href="{{ url_for('item', id=item.id) }}">
+                <img src="{{ item.image }}" width="210" height="200">
+            </a>
         </div>
-        {% else %}
-        <button type="button" class="btn red" onclick="show_confirm()">
+        <div class="main-info col s6">
+            <a href="{{ url_for('item', id=item.id) }}">
+                <h1 class="item-name col s8 "> {{ item.name }}</h1>
+                <h1 class="item-price col s4 ">￥{{ item.price }}</h1>
+                <h1 class="item-publisher col s6 ">发布者：{{ item.author.username }}</h1>
+                <h1 class="item-publisher col s6 " style="text-align: right">{{ item.location }}</h1>
+            </a>
+        </div>
+        <div class="col s3 status-col">
+            {% if item.status == 1 %}
+            <div class="saled">
+                <i class="iconfont icon-ok"></i><em>已售出</em>
+            </div>
+            {% else %}
+            <button type="button" class="btn red" onclick="show_confirm()">
                 <i class=" iconfont icon-ok "></i><a href="{{url_for( 'saled', id=item.id)}} ">确认售出</a>
             </button>
-        <button type="button " class="btn blue ">
+            <button type="button " class="btn blue ">
                 <i class="iconfont icon-edit "></i><a href="{{url_for( 'modify', id=item.id)}} ">编辑商品</a>
             </button>
-        <button type="button " class="btn gray " onclick="show_confirm() ">
+            <button type="button " class="btn gray " onclick="show_confirm() ">
                 <i class=" iconfont icon-delete "></i><a href="{{url_for( 'saled', id=item.id)}} ">下架商品</a>
             </button> {% endif %}
+        </div>
     </div>
-</div>
-{% endfor %} {% else %}
-<p> 没有发布任何商品T_T </p>
-{% endif %}
-<script>
-    function show_confirm() {
-        var r = confirm("确认售出后，主页将无法显示本条商品! ");
-        if (r == true) {
-            return true;
-        } else {
-            return false;
+    {% endfor %} {% else %}
+    <p> 没有发布任何商品T_T </p>
+    {% endif %}
+    <script>
+        function show_confirm() {
+            var r = confirm("确认售出后，主页将无法显示本条商品! ");
+            if (r == true) {
+                return true;
+            } else {
+                return false;
+            }
         }
-    }
-</script>
+    </script>
 </div>
 {% endblock %}

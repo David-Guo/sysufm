@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block head %}
+<link rel="stylesheet" href="../static/detail.css">
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_jbw33pu1tvqp8pvi.css"> {% endblock %} {% block content %}
+<div class="container" style="padding-top: 90px">
+    <div class="title">
+        <p>全部消息</p>
+        <hr class="hr1">
+        <hr class="hr2">
+    </div>
+
+    {% if commented %} {% for comment in commented %}
+    <div class="detail-box">
+        <div class="comment-pane">
+            <em class="comment-author">{{ comment.author.username }}</em>
+            <em class="comment-body">回复了主题 <a href="/item/{{comment.commodity.id}}">{{ comment.commodity.name }}</a></em>
+            <div>
+                <em class="comment-time"> {{ moment(comment.timestamp).format('YYYY-MM-DD HH:mm:ss') }}</em>
+            </div>
+        </div>
+    </div>
+    {% endfor %} {% else %}
+    <p> 没有任何消息T_T </p>
+    {% endif %}
+</div>
+{% endblock %}

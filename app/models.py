@@ -14,7 +14,9 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
 
     commodity = db.relationship('Commodity', backref='author', lazy='dynamic')
-    comment = db.relationship('Comment', backref='author', lazy='dynamic')
+    comment = db.relationship('Comment', backref='author', lazy='dynamic', primaryjoin='Comment.author_id==User.id')
+    commented = db.relationship('Comment', backref='reciver', lazy='dynamic', primaryjoin='Comment.reciver_id==User.id')
+    unreadcomments = db.Column(db.Integer(), default=0)
 
     @property
     def password(self):
@@ -71,5 +73,4 @@ class Comment(db.Model):
     disabled = db.Column(db.Boolean, default=0)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     commodity_id = db.Column(db.Integer, db.ForeignKey('commodity.id'))
-
-    reciver = db.Column(db.String(64))
+    reciver_id = db.Column(db.Integer, db.ForeignKey('users.id'))

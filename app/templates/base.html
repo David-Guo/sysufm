@@ -3,9 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/dist/css/bootstrap.min.css') }}">
-    <script src="{{ url_for('static', filename='lib/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    {{ moment.include_moment(local_js=url_for('static', filename='lib/moment-with-locales.min.js')) }} {{ moment.lang("zh-cn") }}
     <style type="text/css">
         .alert-box {
             width: 920px;
@@ -86,6 +83,22 @@
         .btn a {
             color: #fff;
         }
+        
+        .dropdown-menu {
+            width: 280px;
+            padding: 0 0 0 0;
+            margin: 0;
+            right: 5%;
+            left: auto;
+            border: 1px solid #ddd;
+            background: #fff;
+        }
+        
+        .dropdown-menu li {
+            padding: 7px 10px;
+            border-bottom: 1px solid #f4f4f4;
+            width: 100%;
+        }
     </style>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon"> {% block head %} {% endblock %}
 </head>
@@ -104,7 +117,22 @@
                     </li>
                     <li> <a href="{{ url_for('user') }}">我的商品</a></li>
                     {% if current_user.is_authenticated %}
-                    <li><a href="#">{{ current_user.username }}</a></li>
+                    <li class="dropdown messages-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="label label-warning">{{current_user.unreadcomments}} </span> {{ current_user.username }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h6>你有 {{current_user.unreadcomments}} 条未读评论</h6>
+                            </li>
+                            <!--<li>
+                                <ul class="menu" style="text-align: center;">
+                                    <h5>最近没有新的评论<small> 最近的消息</small></h5>
+                                </ul>
+                            </li>-->
+                            <li class="footer"><a href="/shownotice" style="text-align: center;">查看全部评论</a></li>
+                        </ul>
+                    </li>
                     <li><a href="{{ url_for('logout') }}">退出登录</a></li>
                     {% else %}
                     <li><a href="{{ url_for('login') }}">登录</a></li>
@@ -123,6 +151,13 @@
         </div>
     </div>
     {% endfor %} {% block content %} {% endblock %}
+    <!--<script src="{{ url_for('static', filename='lib/jquery/dist/jquery.min.js') }}"></script><script src="{{ url_for('static', filename='lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>-->
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>{% block script %} {{ moment.include_moment(local_js="http://cdn.bootcss.com/moment.js/2.14.1/moment-with-locales.min.js") }}{{ moment.lang("zh-cn") }}
+    <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1260752423'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1260752423' type='text/javascript'%3E%3C/script%3E"));
+    </script>{% endblock %}
 </body>
 
 </html>
